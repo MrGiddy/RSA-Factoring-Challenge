@@ -1,0 +1,54 @@
+#!/usr/bin/python3
+"""Factorization of a composite number using Fermat's method"""
+
+# N is a composite number
+# A composite number has at leas one other factor other
+# than 1 and itself a.k.a is not prime
+
+def is_perfect_square(number):
+    """Checks if a given number is a perfect square
+    
+        Args:
+            number (int): The number to check
+
+        Returns:
+            bool: True if number is perfect square, Falwe otherwise
+    """
+    root = int(number**0.5)
+    return root * root == number
+
+def fermat_factorization(N):
+    """Performs Fermat's Factorization on N and prints
+
+        Args:
+            - N (int): The number to be factorized
+    """
+    # Special case for even numbers
+    if N % 2 == 0:
+        print(f"{N}={N // 2}*{2}")
+    else:
+        # Initialize 'a' as a rounded up square root of N
+        a = int(N**0.5) + 1
+
+        # Calculate the sqrt of the difference btn a^2 and N
+        b_squared = a**2 - N
+
+        # Iterate until 'b_squared' is a perfect square
+        while not is_perfect_square(b_squared):
+            a += 1
+            b_squared = a**2 - N
+
+        # Calculate 'b' as the sqrt of the final b_squared
+        b = int(b_squared**0.5)
+
+        # Print the factorizatio of N
+        print(f"{N}={a + b}*{a - b}")
+
+
+def main():
+    with open(__import__('sys').argv[1], 'r') as f:
+        for line in f:
+            fermat_factorization(int(line))
+
+if __name__ == "__main__":
+    main()
